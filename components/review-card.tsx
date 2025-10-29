@@ -16,17 +16,17 @@ interface ReviewCardProps {
 export function ReviewCard({ platform, author, rating, date, content, sentiment, responded = false }: ReviewCardProps) {
   return (
     <Card className="shadow-sm">
-      <CardContent className="p-6">
-        <div className="space-y-4">
-          <div className="flex items-start justify-between">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
+      <CardContent className="p-4 sm:p-6">
+        <div className="space-y-3 sm:space-y-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex-1 space-y-1">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="font-medium">{author}</span>
                 <Badge variant="outline" className="text-xs">
                   {platform}
                 </Badge>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <div className="flex">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star
@@ -42,6 +42,7 @@ export function ReviewCard({ platform, author, rating, date, content, sentiment,
             <Badge
               variant="secondary"
               className={cn(
+                "shrink-0",
                 sentiment === "positive" && "bg-chart-2/20 text-chart-2",
                 sentiment === "negative" && "bg-destructive/20 text-destructive",
                 sentiment === "neutral" && "bg-muted text-muted-foreground",

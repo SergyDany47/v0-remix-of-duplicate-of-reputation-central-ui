@@ -314,38 +314,53 @@ export default function ReviewsPage() {
                     ))}
                   </div>
 
-                  <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+                  <div className="flex flex-col items-center justify-between gap-4 border-t pt-4 sm:flex-row">
                     <p className="text-sm text-muted-foreground">
                       Mostrando {startIndex + 1} a {Math.min(endIndex, filteredReviews.length)} de{" "}
                       {filteredReviews.length} reseñas
                     </p>
-                    <div className="flex items-center gap-2">
+                    <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row sm:gap-2">
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
                         disabled={currentPage === 1}
+                        className="w-full sm:w-auto"
                       >
                         Anterior
                       </Button>
-                      <div className="flex items-center gap-1">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                          <Button
-                            key={page}
-                            variant={currentPage === page ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setCurrentPage(page)}
-                            className="h-8 w-8 p-0"
-                          >
-                            {page}
-                          </Button>
-                        ))}
+                      <div className="flex items-center gap-1 overflow-x-auto pb-2 sm:pb-0">
+                        {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                          // Show first, last, current, and adjacent pages
+                          let page: number
+                          if (totalPages <= 5) {
+                            page = i + 1
+                          } else if (currentPage <= 3) {
+                            page = i + 1
+                          } else if (currentPage >= totalPages - 2) {
+                            page = totalPages - 4 + i
+                          } else {
+                            page = currentPage - 2 + i
+                          }
+                          return (
+                            <Button
+                              key={page}
+                              variant={currentPage === page ? "default" : "outline"}
+                              size="sm"
+                              onClick={() => setCurrentPage(page)}
+                              className="h-8 w-8 shrink-0 p-0"
+                            >
+                              {page}
+                            </Button>
+                          )
+                        })}
                       </div>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
                         disabled={currentPage === totalPages}
+                        className="w-full sm:w-auto"
                       >
                         Siguiente
                       </Button>
